@@ -1,14 +1,14 @@
-FROM ubuntu:jammy
+FROM alpine:latest
 
 WORKDIR /uc2
 
-# Install software
-RUN apt update && \
-    apt upgrade -y && \
-    apt install -y flex bison openjdk-21-jdk gcc &&
-    apt clean all &&
-    rm -rf /var/lib/apt/*
+RUN apk update && \
+    apk upgrade --no-cache && \
+    apk add  --no-cache flex bison openjdk21-jdk gcc g++ make automake && \
+    rm /var/cache/apk/*
 
-COPY lex.l syntax.y Makefile tests/ .
+COPY . .
 
-CMD ["make", "clean", "all"]
+RUN make clean all
+
+ENTRYPOINT ["./entrypoint.sh"]

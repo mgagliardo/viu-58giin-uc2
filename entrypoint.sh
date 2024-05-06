@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 
 set -euo pipefail
 
-make
+make run test=$@

@@ -6,7 +6,7 @@ all:
 	@echo "\nCreando el compilador"
 	g++ -w -std=c++11 lex.yy.c y.tab.c -o compilador
 
-run: all
+run:
 	@echo "\nEjecutando el test"
 	./compilador tests/$(test)
 	java -jar ./jasmin.jar output.j

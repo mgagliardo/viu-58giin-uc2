@@ -93,3 +93,59 @@ java test
 65536
 11
 ```
+
+## Utilizando Docker
+
+Si por alguna razon no pudieramos ejecutar el compilador utilizando los comandos antes mencionados (ejemplo, se esta probando en Windows o MacOS) podemos utilizar [docker](https://docker.com).
+
+Para el build:
+
+```shell
+% docker build -t compilador:latest .
+STEP 1/6: FROM alpine:latest
+STEP 2/6: WORKDIR /uc2
+--> Using cache e5612697f26c7ebb5f6eddd939f8d38417c7744a1c4c0a612d63727aff2bbb4f
+--> e5612697f26c
+STEP 3/6: RUN apk update &&     apk upgrade --no-cache &&     apk add  --no-cache flex bison openjdk21-jdk gcc g++ make automake &&     rm /var/cache/apk/*
+--> Using cache c138cd2054b0f4577a9606c1b3d448cb63dbbf58ff89897df2f35badd8826042
+--> c138cd2054b0
+STEP 4/6: COPY . .
+--> c3fd6e52797a
+STEP 5/6: RUN make clean all
+rm -rf y.tab.c y.tab.h test.class output.j lex.yy.c compilador
+\nEjecutando el analizador lexico
+flex lex.l
+\nEjecutando el analizador Semantico
+bison -y -d syntax.y
+syntax.y:64.1-5: warning: POSIX Yacc does not support %code [-Wyacc]
+   64 | %code requires {
+      | ^~~~~
+syntax.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
+syntax.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+\nCreando el compilador
+g++ -w -std=c++11 lex.yy.c y.tab.c -o compilador
+--> 6e11b234d462
+STEP 6/6: ENTRYPOINT ["./entrypoint.sh"]
+COMMIT compilador:latest
+--> 5e99ce98fe58
+Successfully tagged localhost/compilador:latest
+```
+
+Luego ejecutamos los tests:
+
+```shell
+% docker run -ti compilador:latest <NOMBRE_DEL_TEST>
+```
+
+`<NOMBRE_DEL_TEST>` vendria a ser el nombre del archivo a ejecutar, por ejemplo `op-matematicas`:
+
+```shell
+% docker run -ti compilador:latest op-matematicas
+\nEjecutando el test
+./compilador tests/op-matematicas
+                                                                        java -jar ./jasmin.jar output.j
+Generated: test.class
+java test
+65536
+11
+```
