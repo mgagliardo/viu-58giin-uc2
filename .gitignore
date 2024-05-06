@@ -1,0 +1,6 @@
+compilador
+lex.yy.c
+y.tab.h
+y.tab.c
+output.j
+test.class

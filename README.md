@@ -50,9 +50,46 @@ Para compilar, desde la linea de comandos, ejecutar:
 % g++ -std=c++11 lex.yy.c y.tab.c -o compilador
 ```
 
-O bien, utilizar el `Makefile` (solo Linux o bash-compatible):
+O bien, utilizar el `Makefile` (recomendado), solo Linux o bash-compatible:
 
 ```shell
 % make all
 ```
 
+Tambien se pueden borrar los antiguos archivos de output de compilaciones anteriores con `make clean`, por ejemplo:
+
+```shell
+% make clean all
+```
+
+Una vez creado el compilador, podemos proceder a testera, los casos de prueba se encuentran en la carpeta [tests](./tests/), se pueden utilizar los siguientes comandos:
+
+```shell
+% ./compilador tests/<NOMBRE_DEL_TEST>
+% java -jar ./jasmin-1.1/jasmin.jar output.j
+% java test
+```
+
+`<NOMBRE_DEL_TEST>` vendria a ser el nombre del archivo a ejecutar, por ejemplo `op-matematicas`:
+
+```shell
+% make run test=op-matematicas
+
+Ejecutando el analizador lexico
+flex lex.l
+
+Ejecutando el analizador Semantico
+bison -y -d syntax.y
+conflicts: 2 shift/reduce
+
+Creando el compilador
+g++ -w -std=c++11 lex.yy.c y.tab.c -o compilador
+
+Ejecutando el test
+./compilador tests/op-matematicas
+                                                                        java -jar ./jasmin.jar output.j
+Generated: test.class
+java test
+65536
+11
+```

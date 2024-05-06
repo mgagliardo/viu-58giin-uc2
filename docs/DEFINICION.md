@@ -14,6 +14,15 @@ Las gramáticas propuestas cubren las siguientes características:
   - Bucles for
   - Bucles while
 
+### Decisiones de diseño
+
+Por una cuestion de complejidad, las siguientes operaciones no fueron implementada:
+- Type casting o [type conversion](https://docs.oracle.com/javase/specs/jls/se7/html/jls-5.html). Por lo tanto, solo es posible asignar una variable del mismo tipo a una variable.
+- Ciertas operaciones con booleanos no fueron implementadas, por ejemplo:
+  - `true && expr`
+  - `true || expr`
+- Ciertas palabras y acciones reservadas del lenguaje no han sido implementadas, como el caso de `break`.
+
 ## eBNF
 
 Una definición en `eBNF` (extended Backus–Naur Form) basada en la gramática propuesta es:

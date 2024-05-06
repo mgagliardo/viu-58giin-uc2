@@ -34,7 +34,6 @@ Esta fase representa el analizador semántico en un compilador típico. Toma el 
 
 El siguiente diagrama hecho en [mermaid](https://mermaid.js.org/syntax/stateDiagram.html) nos muestra las fases descritas
 
-
 ```mermaid
 stateDiagram-v2
     AnalizadorLexico: Analizador Lexico
@@ -46,3 +45,9 @@ stateDiagram-v2
     AnalizadorLexico --> AnalizadorSintactico: Analiza el código para obtener los tokens
     AnalizadorSintactico --> AnalizadorSemantico: Analiza los tokens para generar el árbol
 ```
+
+## Testing
+
+A la hora de testear el compilador, se opto por utilizar [Jasmin](https://jasmin.sourceforge.net/), que es basicamente un ensamblador para la plataforma Java. En este caso es un lenguaje intermedio que podemos usar para escribir código Java en un formato más bajo nivel, similar a lo que se hace con el ensamblador (assembler) en lenguajes de bajo nivel como el lenguaje de máquina. 
+
+En este caso, después de que Flex y Bison hayan realizado el análisis léxico y sintáctico del código fuente y una vez aplicadas las reglas semánticas necesarias, generamos código Jasmin que representa el código intermedio o el bytecode Java correspondiente al código fuente procesado. Luego utilizamos el ensamblador Jasmin para convertirlo en bytecode de Java, que luego puede ser ejecutado en la Máquina Virtual de Java (JVM).

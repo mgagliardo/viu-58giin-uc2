@@ -381,21 +381,14 @@ b_expression:
     ;
 %%
 
-main (int argv, char * argc[])
+int main(int argv, char * argc[])
 {
     FILE *miArchivo;
-    if(argv == 1) 
-    {
-        miArchivo = fopen("input.txt", "r");
-        outfileName = "input.txt";
-    }
-    else 
-    {
-        miArchivo = fopen(argc[1], "r");
-        outfileName = string(argc[1]);
-    }
+    miArchivo = fopen(argc[1], "r");
+    outfileName = string(argc[1]);
     if (!miArchivo) {
-        printf("Error: No se ha podido abrir el archivo de input!\n");
+        string err = "Error: No se ha podido abrir el archivo indicado\n";
+        yyerror(err.c_str());
         char cCurrentPath[200];
          if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath)))
              {
@@ -410,6 +403,7 @@ main (int argv, char * argc[])
     yyin = miArchivo;
     yyparse();
     printCode();
+    return 0;
 }
 
 void yyerror(const char * s)

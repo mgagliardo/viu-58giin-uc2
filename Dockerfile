@@ -9,6 +9,6 @@ RUN apt update && \
     apt clean all &&
     rm -rf /var/lib/apt/*
 
-COPY lex.l syntax.y Makefile tests entrypoint.sh .
+COPY lex.l syntax.y Makefile tests/ .
 
-ENTRYPOINT ["./entrypoint.sh"]
+CMD ["make", "clean", "all"]

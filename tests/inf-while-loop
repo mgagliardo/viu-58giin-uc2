@@ -1,0 +1,11 @@
+int x;
+int y;
+y = 5;
+
+x = 6 + y;
+
+while(true)
+{
+	x = x + 1;
+	System.out.println(x);
+}
